@@ -1,0 +1,32 @@
+
+%section.content
+  // info alert
+  .basket
+    .box.box-default
+      .box-header.with-border
+        %h3.box-title
+          Basket
+      .box-body
+        .row
+          .col-md-12
+            #baskets= render 'basket'
+  .box.box-primary
+    .box-header.with-border
+      %h3.box-title
+        Products
+  
+    .box-body
+      .row
+        .col-md-12
+          - @products.each do |p|
+            .row.col-md-4.text-center
+              %h3= p.name
+              .row
+                .col-md-6
+                  = hidden_field_tag 'qty', 1, class: 'form-control qty'
+                  = hidden_field_tag 'product_id', p.id, class: "prod_id"
+                .col-md-12
+                  .text-center
+                    = submit_tag "Add to Cart", class: 'btn btn-primary btn-sm btn-flat add_to_cart', remote: true
+
+

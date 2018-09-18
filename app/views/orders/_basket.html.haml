@@ -1,0 +1,65 @@
+.table-responsive
+  %table.table.table-bordered
+    %thead
+      %tr
+        %th.text-center Action
+        %th.text-center Code
+        %th.text-center Name
+        %th.text-center Price
+        %th.text-center Qty
+        %th.text-center Vat Rate
+        %th.text-center Subtotal
+    %tbody
+      - @baskets.each do |p|
+        %tr
+          %td 
+            %p.remove_data= link_to "Remove", 'javascript:void(0)', class: "remove_product"
+          %td= p.prod_code
+          %td.col-md-5= p.prod_name
+          %td= p.prod_price
+          %td.col-md-1
+            = text_field_tag 'qty', p.prod_qty, class: "change_qty form-control", onkeypress: 'return event.charCode >= 48 && event.charCode <= 57'
+            = hidden_field_tag 'basket', p.id
+          %td= p.prod_vat
+          %td
+            %p.basket_price= p.sub_total
+            = hidden_field_tag 'sub_total_basket', p.sub_total_price, class: "sub_total_basket"
+
+      %tr
+        %td{:colspan => "6"}
+          .pull-right
+            %b
+              Subtotal:
+        %td
+          %b.sub_total_order 
+            = number_to_currency(@baskets_subtotal,:unit=>'€')
+
+      %tr
+        %td{:colspan => "6"}
+          .pull-right
+            Discount(12%):
+        %td
+          %p.discount= number_to_currency(discount(@baskets_subtotal),:unit=>'€')
+
+      %tr
+        %td{:colspan => "6"}
+          .pull-right
+            %b
+              Grand Total:
+        %td
+          %b.total_order  
+            = number_to_currency(total_order(@baskets_subtotal),:unit=>'€')
+#checkout{style:"display:#{@baskets_subtotal != 0 ? '' : 'none'};"}      
+  .col-md-6  
+    = form_tag checkout_path, method: :put do      
+      .form-group  
+        = email_field_tag "email",nil, class:"form-control form-control-solid placeholder-no-fix", placeholder: "Email", required: true
+      .form-group  
+        = text_field_tag "phone", nil, class: "form-control form-control-solid placeholder-no-fix", placeholder: "Phone", required: true
+      .form-group
+        .pull-right
+          = submit_tag "Proceed to Checkout", class: "btn btn-default btn-md"              
+
+  
+  
+                  

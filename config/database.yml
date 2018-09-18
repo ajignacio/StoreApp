@@ -1,0 +1,21 @@
+development:
+  adapter: postgresql
+  encoding: UTF-8
+  host: localhost
+  template: template0
+  database: store_development
+  username: storeapp
+  password: postgres
+  pool: 5
+  timeout: 5000
+
+test:
+  adapter: postgresql
+  encoding: UTF-8
+  host: localhost
+  template: template0
+  database: store_test
+  username: storeapp
+  password: postgres
+  pool: 5
+  timeout: 5000
